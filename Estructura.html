@@ -1,157 +1,448 @@
-<!DOCTYPE html>
-<html lang="en">
+const { MessageMedia } = require("whatsapp-web.js");
+const puppeteer = require("puppeteer");
+const qrcode = require("qrcode-terminal");
+const { Client, LocalAuth } = require("whatsapp-web.js");
 
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>im largo</title>
-    <link rel="stylesheet" type="text/css" href="Estilo.css">
-</head>
+console.log("------------------------->");
+console.log("Iniciando y Autenticando ");
+console.log("------------------------->");
 
+const client = new Client({authStrategy: new LocalAuth((dataPath = "/content/.wwebjs_auth")),puppeteer: { args: ["--no-sandbox", "--disable-setuid-sandbox"] },});
 
-<body>
-    <header class="Navegacion">
-        <nav>
-            <ul>
-                <span>...</span>
-                <li><a href="">Acerca de</a></li>
-                <li><a href="">Proyectos</a></li>
-                <li><a href="">Inicio</a></li>
-            </ul>
-        </nav>
-    </header>
+client.on("qr", (qr) => {
+  console.log("No hay Sesion Iniciada, Generando QR")
+  qrcode.generate(qr, { small: true });
+});
 
+client.on("ready", async () => {
+  console.log(".................................................");
+  console.log(">>> Programa Iniciado con Exito >>>");
+  console.log(".................................................");
+  console.log(">>> Activado y Listo :) ✅>>>");
+  
+  let chats = await client.getChats();
+  let myChat = chats.find((chat) => chat.name === "Consola.");
+  myChat.sendMessage(">>> Activado y Listo :) ✅>>>");
+});
 
-    <section class="Principal">
-        <section class="Presentacion">
-            <!-- Presentacion -->
-            <span>Hi! im largo</span>
-            <hr>
-            <p>Juan Carlos Largo.</p>
-        </section>
+//...............................................
+//Variables Globales
+const mi_numero = 573136566689;
+let Activado = true;
+let Valido = [];
+//...............................................
+//Personalizable
+let comandos_text = `+ . . . Comandos . . . +\n*- Exclusivos:*\nLargo says @Todos\n.whois\n\n................\n*- Publicos (Todos)*\nHola Largo/buenos dias/buenas noches\n.wifi\n.intercampus\n.almuerzo\n.comercio\n.instagram\n.link\n.sticker\n.d (Sorpresa)`;
+let my_instagram = `instagram.com/im_largo`;
+let misComandos = `#...................#\nLargo Says @Todos\n.whois\n./s ...\n.s\n.n\n.spam\n.a\n.e\n.save\n.lea\n#...................#`;
+let sticker_lea = MessageMedia.fromFilePath("/content/WhatsApp-API/Lea.jpeg");
+let sticker_newMember = MessageMedia.fromFilePath("/content/WhatsApp-API/newMiembro.JPG");
+let newMembers = ['120363028796279626@g.us','120363130062427746@g.us','573183632992-1517254405@g.us','120363030160402191@g.us','120363134565574085@g.us','120363136647375017@g.us'];
 
+let mapa_minas = MessageMedia.fromFilePath("/content/WhatsApp-API/MapaMinas.jpg");
+let mapa_volador = MessageMedia.fromFilePath("/content/WhatsApp-API/MapaVolador.jpg");
+//...............................................
 
+const myComandos = {
+  //...Comandos Exclusivos de Admin
+  ".s": async (msg) => {
+    console.log(">>> --- Iniciado ---");
+    msg.react("✅")
+    Activado = true;
+    msg.reply("*... Iniciando y Cargando ...*");
+  },
 
+  ".n": async (msg) => {
+    console.log(">>> --- Pausado ---");
+    msg.react("✅")
+    Activado = false;
+    msg.reply("*... Desactivado, Solo Largo ...*");
+  },
 
+  ".a": async (msg) => {
+    console.log(">>> --- Añadiendo grupo ---");
+    msg.react("✅")
+    Valido = Valido.filter((value) => value !== chat_id);
+    msg.reply("> Grupo Activado");
+  },
 
-        <!-- Acerca de mi -->
-        <section class="Contenedor border">
-            <h1>Hola!,</h1>
+  ".e": async (msg) => {
+    console.log(">>> --- Eliminando grupo ---");
+    msg.react("✅")
+    Valido.push(chat_id);
+    msg.reply("> Grupo desactivado");
+  },
 
-            <p>Soy Juan Carlos Largo, estudiante de primer semestre de Ingenieria de Sistemas e
-                Informatica en la Universidad Nacional de Colombia.</p>
-
-            <p>Me encanta la música, la comida, los atardeceres y la naturaleza. Disfruto mucho programar,
-                y las matemáticas me parecen fascinantes!.</p>
-
-        </section>
-
-
-
-
-
-
-
-        <!--  -->
-
-        <!-- Proyectos destacados -->
-        <section class="Contenedor">
-
-            <div class="LineTittle">
-                <hr>
-                <h1>Mis Proyectos</h1>
-                <hr>
-
-            </div>
-            <br><br>
-
-
-
-            <div class="Cajon">
-                <h3>UNa Venta.</h3>
-                <p>Iniciativa estudiantil para apoyar el comercio de los estudiantes en la sede, proporcionando un catálogo amplio y completo de los emprendimientos o productos de los estudiantes.</p>
-                <div class="leerMas">
-                    <hr>
-                    <button onclick="window.open('https://www.appsheet.com/start/61d3a5b2-35f0-4ce0-b255-1d9c8dd40751', '_blank')">Usar</button>
-                </div>
-            </div>
-
-            <div class="Cajon">
-                <h3>Autoetiquetador Correo Institucional.</h3>
-                <p>Implementacion usando la Api de Gmail para automaticamente generar etiquetas de los correos mas importantes/usandos para mantener el correo institucional organizado.</p>
-                <div class="leerMas">
-                    <hr>                    
-                    <button onclick="window.open('https://script.google.com/a/macros/unal.edu.co/s/AKfycbwA8mZ7PB-9lbdyFQ_lMnb0yw1ywzXk688sl42Ci1af4rjxq8PVzKxxT84Ym3_kZvXp/exec', '_blank')">Usar</button>
-                </div>
-            </div>
-
-            <div class="Cajon">
-                <h3>Bot WhatsApp</h3>
-                <p>Proyecto hecho por diversion :P, con el bojetivo de cumplir diferentes funciones, como la moderacion y gestion de grupos de WhatsApp, proximamente en servidores.</p>
-                <div class="leerMas">
-                    <hr>
-                    <button>Proximamente...</button>
-                </div>
-            </div>
-
-            <div class="Cajon">
-                <h3>Proximamente</h3>
-                <p>Aun hay proyectos en creacion!. Proximamente mas...</p>
-                <p>Esta pagina aun esta en contruccion :3</p>
+  ".w": async (msg) => {
+    console.log(">>> --- Eliminando grupo ---");
+    msg.react("✅")
+    newMembers = newMembers.filter((value) => value !== chat_id);
+    console.log(chat_id)
     
-                <div class="leerMas">
-                    <hr>
-                    <button>...</button>
-                </div>
-            </div>
+  },
 
-            
- 
+  ".z": async (msg) => {
+    console.log(">>> --- Añadiendo grupo ---");
+    msg.react("✅")
+    newMembers.push(chat_id);
+    console.log(chat_id)
+  },
+
+  //.... Comandos Propios de Herramientas ....
+  ".save": async (msg) => {
+    console.log(">>> Guardando ");
+    let imagen_m = await msg.getQuotedMessage();
+    let foto = await imagen_m.downloadMedia();
+    msg.reply(foto);
+  },
+
+  ".i": async (msg) => {
+    console.log("...........");
+    console.log(await msg.getChat());
+  },
+
+  "Largo says @Todos": async (msg) => {
+    console.log(">>> @Todos ");
+    msg.react("✅")
+    let chat = await msg.getChat();
+    let text = "Largo says @Todos:  ";
+    let mentions = [];
+    for (let participant of chat.participants) {
+      const contact = await client.getContactById(participant.id._serialized);
+      mentions.push(contact);
+      text += `@${participant.id.user} `;
+    }
+    chat.sendMessage(text, { mentions });
+  },
+
+  ".lea": async (msg) => {
+    console.log(">>> Leaaa ");
+    msg.reply(sticker_lea, undefined, {
+      sendMediaAsSticker: true,
+      stickerAuthor: "im largo",
+      stickerName: "im largo",
+      stickerCategories: "im largo",
+      media: sticker_lea,
+    });
+  },
+
+  ".largo": async (msg) => {
+    console.log(">>> Mis comandos ");
+    msg.reply(misComandos);
+  },
+
+  ".link": async (msg) => {
+    console.log("> #...Link grupo...#");
+    let code = await (await msg.getChat()).getInviteCode();
+    let nombre_grupo = (await msg.getChat()).name;
+    msg.reply(
+      `*Link Grupo ${nombre_grupo}*\nhttps://chat.whatsapp.com/${code}`
+    );
+  },
+
+  ".exit": async (msg) => {
+    console.log(">>> SALIENDO DEL PROGRAMA >>>")
+    await msg.react("✅")
+    client.destroy()
+    process.exit()
+  },
+
+  ".reset": async (msg) => {
+    console.log(">>> Reseteando info >>>")
+    msg.react("♻️")
+    //start()
+  },
+
+  ".id": async (msg) => {
+    console.log(">>> Reseteando info >>>")
+    msg.react("♻️")
+    console.log((await msg.getChat()).id._serialized)
+  },
+
+  ".fetch": async (msg) => {
+    console.log(">>> Reseteando info >>>")
+    msg.react("♻️")
+    let mensajes = await (await msg.getChat()).fetchMessages()
+    msg.reply(mensajes)
+  },
+
+  ".all": async (msg) => {
+    console.log(">>> Reseteando info >>>")
+    msg.react("♻️")
+    let text = ""
+    for (let funcion in mapIncludes) {
+      text = text + funcion.toLocaleLowerCase() + "\n"
+    }
+    for (let funcion in mapComandos) {
+      text = text + funcion.toLocaleLowerCase() + "\n"
+    }
+    for (let funcion in mapIncludesAll) {
+      text = text + funcion.toLocaleLowerCase() + "\n"
+    }
+    for (let funcion in mapRespuestas) {
+      text = text + funcion.toLocaleLowerCase() + "\n"
+    }
+    for (let funcion in myComandos) {
+      text = text + funcion.toLocaleLowerCase() + "\n"
+    }
+    msg.reply(text)
+  },
+};
+
+const mapComandos = {
+  //...Otros comandos publicos
+  ".sticker": async (msg) => {
+    console.log("> #...Sticker...#");
+    if (its_me) {
+      if (msg.hasMedia) {
+        let mediaa = await msg.downloadMedia();
+        msg.reply(mediaa, undefined, {sendMediaAsSticker: true,stickerAuthor: "im largo",stickerName: "im largo",stickerCategories: "im largo",media: mediaa,});
+      } else {
+        let mediaa = await (await msg.getQuotedMessage()).downloadMedia();
+        msg.reply(mediaa, undefined, {sendMediaAsSticker: true,stickerAuthor: "im largo",stickerName: "im largo",stickerCategories: "im largo",media: mediaa,});
+      }
+    } else if (msg.hasMedia) {
+      let mediaa = await msg.downloadMedia();
+      msg.reply(mediaa, undefined, {sendMediaAsSticker: true,stickerAuthor: "im largo",stickerName: "im largo",stickerCategories: "im largo",media: mediaa,});
+    }
+  },
+
+  ".meee": async (msg) => {
+    console.log("> #...Me...#");
+    const contact = await client.getContactById(msg.author);
+    let url_foto = await contact.getProfilePicUrl();
+    let nombre = await contact.pushname;
+    let descripcion = await contact.getAbout();
+    let telefono = await contact.number;
+    let grupos = await contact.getCommonGroups();
+    let grupos_comun = [];
+    let device = await msg.deviceType;
+    for (let i = 0; i < grupos.length; i++) {
+      let id_grupo = grupos[i]["_serialized"];
+      let n_grupo = (await client.getChatById(id_grupo)).name;
+      grupos_comun.push(n_grupo);
+    }
+    let t = `*# + + + + #*\n*Nombre*: ${nombre}\n......................\n*Info*: ${descripcion}\n......................\n*Telefono:* ${telefono}\n*Dispositivo*: ${device}\n......................\n*Grupos en comun:* ${grupos.length}\n......................\n*Grupos:* ${grupos_comun}`;
+    if (url_foto == undefined) {
+      msg.reply(t);
+    } else {
+      let mediaa = await MessageMedia.fromUrl(url_foto);
+      msg.reply(mediaa, undefined, { caption: t, media: mediaa });
+    }
+  },
+
+  ".d": async (msg) => {
+    console.log("> #...Dispositivo...#");
+    msg.reply(`*Dispositivo:*\n ${msg.deviceType}`);
+  },
+
+  ".textt": async (msg) => {
+    console.log("> #...Dispositivo...#");
+    let chat = await msg.getChat()
+    let mensajes = await chat.fetchMessages()
+    mensajes.forEach(async mensajee => {
+      mensajee.react("👋")
+    });
+  },
+};
+
+const mapIncludes = {
+  ".spam": async (msg) => {
+    console.log(">>> Spam ");
+    let spam = mensaje.split(";");
+    let chat = await msg.getChat();
+    for (let m = 0; m <= parseInt(spam[1]); m++) {
+      chat.sendMessage(spam[2]);
+    }
+  },
+
+  ",,": async (msg) => {
+    let posible = await msg.getQuotedMessage();
+    if (posible.hasMedia) {
+      console.log(">>> Guardando Foto temporal");
+      let foto = await posible.downloadMedia();
+      let chats = await client.getChats();
+      let groupChat = chats.find((chat) => chat.name === "Test.");
+      groupChat.sendMessage(foto);
+      console.log("...Guardado...");
+    }
+  },
+
+  ".whois": async (msg) => {
+    console.log("> #...Whois...#");
+    let numero = mensaje.split(" ")[1];
+    const contact = await client.getContactById(numero + "@c.us");
+    let url_foto = await contact.getProfilePicUrl();
+    let nombre = await contact.pushname;
+    let descripcion = await contact.getAbout();
+    let telefono = await contact.number;
+    let grupos = await contact.getCommonGroups();
+    let grupos_comun = [];
+    for (let i = 0; i < grupos.length; i++) {
+      let id_grupo = grupos[i]["_serialized"];
+      let n_grupo = (await client.getChatById(id_grupo)).name;
+      grupos_comun.push(n_grupo);
+    }
+    let t = `*# + + + + #*\n*Nombre*: ${nombre}\n......................\n*Info*: ${descripcion}\n......................\n*Telefono:* ${telefono}\n......................\n*Grupos en comun:* ${grupos.length}\n......................\n*Grupos:* ${grupos_comun}`;
+    if (url_foto == undefined) {
+      msg.reply(t);
+    } else {
+      let mediaa = await MessageMedia.fromUrl(url_foto);
+      msg.reply(mediaa, undefined, { caption: t, media: mediaa });
+    }
+  },
+}
+
+const mapIncludesAll = {
+  ".mapa": async (msg) => {
+    let mapa = mensaje.split(" ")[1];
+    if (mapa == "volador") {
+      msg.reply(mapa_volador);
+    } else if (mapa == "minas") {
+      msg.reply(mapa_minas);
+    }
+  },
+
+  "chao larg": async (msg) => {
+    console.log("> #...Despidiendo...#");
+    msg.reply(`Byee ∘*✧ ${emisor.pushname} ✧･ﾟ`);
+  },
+
+  "bye larg": async (msg) => {
+    console.log("> #...Despidiendo...#");
+    msg.reply(`Byee ∘*✧ ${emisor.pushname} ✧･ﾟ`);
+  },
+
+  "buenos dias larg": async (msg) => {
+    console.log("> #...Buenos dias...#");
+    msg.reply(`Buenos dias ∘*✧ ${emisor.pushname} ✧･ﾟ, ten un lindo dia`);
+  },
+
+  "buenos días larg": async (msg) => {
+    console.log("> #...Buenos dias...#");
+    msg.reply(`Buenos dias ∘*✧ ${emisor.pushname} ✧･ﾟ, ten un lindo dia`);
+  },
+
+  "good morning larg": async (msg) => {
+    console.log("> #...Buenos dias...#");
+    msg.reply(`Buenos dias ∘*✧ ${emisor.pushname} ✧･ﾟ, ten un lindo dia`);
+  },
+  
+  "buenas noches larg": async (msg) => {
+    console.log("> #...Buenas noches...#");
+    msg.reply(`Buenas noches ∘*✧ ${emisor.pushname} ✧･ﾟ, ten linda noche`);
+  },
+
+  "good night larg": async (msg) => {
+    console.log("> #...Buenas noches...#");
+    msg.reply(`Buenas noches ∘*✧ ${emisor.pushname} ✧･ﾟ, ten linda noche`);
+  },
+
+  "buenas tardes larg": async (msg) => {
+    console.log("> #...Saludando...#");
+    msg.reply(`Hola ∘*✧ ${emisor.pushname} ✧･ﾟ`);
+  },
 
 
-        </section>  
+  "hi larg": async (msg) => {
+    console.log("> #...Saludando...#");
+    msg.reply(`Hola ∘*✧ ${emisor.pushname} ✧･ﾟ`);
+  },
+
+  "hello larg": async (msg) => {
+    console.log("> #...Saludando...#");
+    msg.reply(`Hola ∘*✧ ${emisor.pushname} ✧･ﾟ`);
+  },
+
+  "hola larg": async (msg) => {
+    console.log("> #...Saludando...#");
+    msg.reply(`Hola ∘*✧ ${emisor.pushname} ✧･ﾟ`);
+  },
+}
+
+const mapRespuestas = {
+  ".instagram": my_instagram,
+  ".intercampus": MessageMedia.fromFilePath("/content/WhatsApp-API/Buses.jpeg"),
+  ".comercio": `*UNa Venta, Iniciativa estudiantil para apoyar el comercio de los estudiantes en la sede.*\nhttps://www.appsheet.com/start/61d3a5b2-35f0-4ce0-b255-1d9c8dd40751`,
+  ".almuerzo": `*Link Almuerzo Subsidiado:*\nhttps://docs.google.com/forms/d/e/1FAIpQLSfX3tnO2oluk38xQlxulxJhHq9g6jGLPjxnrbNerTLj0U9hCA/viewform`,
+  ".comandos": comandos_text,
+  ".wifi": `*Wifi UnalMed:*\n........................\n*Red:* Comunidad_UnalMed\n*Clave:* wifi_med_213\n........................\n*Red:* Biblioteca Efe Gomez\n*Clave:* Biblioteca218\n........................\n*Red:* Invitados UnalMed\n*Clave:* _Ingresar con usuario y contraseña institucional_\n........................`,
+  ".correo": `*AutoEtiquetador de Correo Institucional (Desarrollado por mi):*\nhttps://script.google.com/a/macros/unal.edu.co/s/AKfycbwbrNfustnA77s5EYruAzUKu4yt-1LgkpmPqlJZNt65eXMTbQvTLJbzWlSM99COy5mC6A/exec`,
+};
 
 
+let chat_id;
+let validado;
+let emisor;
+let its_me;
+let mensaje; 
+let comando; 
 
+client.on("message_create", async (msg) => {
+  //...............................................
+  chat_id = (await msg.getChat()).id._serialized;
+  validado = !Valido.includes(chat_id);
+  emisor = await client.getContactById(msg.author);
+  its_me = emisor.number == 573136566689;
+  mensaje = msg.body;
+  comando = mensaje.length < 30;
+  //...............................................
+  if (its_me && comando) {
+    if (mensaje.includes("./s ")) {
+      eval(mensaje.split(" ")[1]);
+      return;
+    }
+    if (myComandos[mensaje]) {
+      myComandos[mensaje](msg);
+      return;
+    }
+    for (let funcion in mapIncludes) {
+      if (mensaje.includes(funcion)) {
+        mapIncludes[funcion](msg);
+      } 
+    }
+  }
+  
+  if (((Activado == true && validado) || its_me == true) && comando) {
+    mensaje = mensaje.toLocaleLowerCase();
+    if (mapRespuestas[mensaje]) {
+      msg.reply(mapRespuestas[mensaje]);
+      return;
+    }
+    if (mapComandos[mensaje]) {
+      mapComandos[mensaje](msg);
+      return;
+    }
+    for (let funcion in mapIncludesAll) {
+      if (mensaje.includes(funcion)) {
+        mapIncludesAll[funcion](msg);
+      } 
+    }
+  }
+});
 
+client.on("group_leave", async (notification) => {
 
-        <section class="Contenedor border">
-            <h1>Aprendiendo</h1>
+  console.log(">>> Salida");
+  let chat_name = (await notification.getChat()).id._serialized;
+  if (newMembers.includes(chat_name) && Activado) {
+    let contacto = (await notification.getRecipients())[0];
+    notification.reply(`Hasta luego ${contacto.pushname}... :(`);
+    console.log("....Adios!....");
+  }
+});
 
-            <ul class="soft_list ">
-                <li>Python</li>
-                <li>Javascript</li>
-                
-                <li>Google Appheets</li>
-                <li>Diseño Web?</li>
+client.on("group_join", async (notification) => {
+  console.log(">>> Entrada");
 
-                <li>Analisis de Datos</li>
-                <li>Web Scrapping</li>
-            </ul>
+  let chat_name = (await notification.getChat()).id._serialized;
+  if (newMembers.includes(chat_name) && Activado) {
+    let contacto = (await notification.getRecipients())[0];
+    notification.reply(`Bienvenid@ ${contacto.pushname}, @${contacto.id.user}`,{ mentions: [contacto] });
+    notification.reply(sticker_newMember, {sendMediaAsSticker: true,stickerAuthor: "im largo",stickerName: "im largo",stickerCategories: "im largo",media: sticker_newMember,});
+    console.log("....Bienvenido!....");
+  }
 
+});
 
-            <p>Lenguajes de programación, frameworks, bibliotecas, herramientas y tecnologías
-                relevantes.</p>
-            <p>... Programación y desarrollo de software...</p>
-        </section>
-
-
-
-        <section class="Contenedor">
-            <h1>Contacto</h1>
-            <p>En proceso.</p>
-        </section>
-
-        <!-- Prueba -->
-    </section>
-
-    <footer>
-        <p>Juan Carlos Largo. | @im largo</p>
-    </footer>
-
-
-
-</body>
-
-</html>
+client.initialize();
