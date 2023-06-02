@@ -18,6 +18,8 @@ body {
     font-size: 110%;
 }
 
+
+
 .Principal {
     margin: 2%;
 }
@@ -41,6 +43,7 @@ body {
 }
 
 .Presentacion span {
+    
     font-weight: bold;
     font-size: 325%;
     margin: 0;
@@ -52,7 +55,7 @@ body {
 }
 
 .Presentacion p {
-    font-weight: bold;
+    
     margin: 0;
 
 }
@@ -91,7 +94,7 @@ body {
     font-size: 16px;
     font-weight: bold;
     color: #ffffff;
-    cursor: pointer;
+    
     border: 0;
     border-radius: var(--border-curva);
     width: 50%;
@@ -115,6 +118,18 @@ body {
         background-color: rgb(194, 102, 255);        
         
 }
+
+
+.leerMas button a{
+    display:block;
+    cursor: pointer;    
+    font-weight: bold;
+    color: #ffffff;
+    text-decoration: none;
+}
+
+
+
 
 .LineTittle {
     display: flex;
@@ -166,6 +181,9 @@ body {
 }
 
 .soft_list li {
+    
+
+    
     width: 45%;
     display: inline-flex;
     align-items: center;
@@ -224,11 +242,66 @@ body {
 }
 
 .Navegacion li a {
+    font-weight: bold;
     color: #ffffff;
     text-decoration: none
 }
 
 
+
+
+
+
+
+.contact {
+    margin: 2%;
+    text-align: center;
+}
+.contact ul {
+    list-style-type: none;
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+    justify-items: center;
+}
+.contact ul li {
+
+
+    width: 10%;
+    
+    display: inline-block   ;
+    text-align: center;
+    justify-content: center;
+
+    margin-right: 20px;
+    padding: 10px 20px;
+    border: 0;
+    border: 2px solid #ffffff;
+    border-radius: var(--border-curva);
+    box-shadow: 0 2px 4px rgba(255, 255, 255, 0.5);
+}
+.contact span {
+    font-weight: bolder;
+    font-size: 225%;
+    display: inline-block;
+}
+
+.contact li a {
+    font-weight: bold;
+    color: #ffffff;
+    text-decoration: none
+}
+
+.contact li:hover {
+        border: 2px solid #fff;
+        border-radius: var(--border-curva);
+        box-shadow: 0 0 .1rem #fff,
+            0 0 .1rem #fff,
+            0 0 1rem #bc13fe,
+            0 0 0.3rem #bc13fe,
+            0 0 1.8rem #bc13fe,
+            inset 0 0 1.3rem #bc13fe;
+}
 
 
 
