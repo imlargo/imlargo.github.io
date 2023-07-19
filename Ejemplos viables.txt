@@ -1,0 +1,539 @@
+
+    //Sin fucnionar totalmente
+    let vlstDep2 = document.getElementById('lstDepMn').value;
+    let DepartamentosFilter = Eventos.filter(Eventos => Eventos.Departamento == vlstDep2);
+    let userStr = JSON.stringify(DepartamentosFilter);
+    let datos = userStr.split(",")
+    alert(datos[0]);
+
+    <form class="row g-2 align-items-center mb-2">
+                        <div class="col-md-9">
+                            <div class="form-floating">
+                                <select id="lstDepMn" class="form-select" onchange="">
+                                </select>
+                                <label for="floatingSelect">Departamento</label>
+                            </div>
+                        </div>
+                        <div class="col-md-1">
+                            <button class="btn btn-outline-success me-2" type="button" onclick="BuscarMapDepartamento()"
+                                data-bs-toggle="offcanvas" data-bs-target="#offcanvasResultados"
+                                aria-controls="offcanvasResultados">
+                                <i class="bi bi-binoculars"></i>
+                            </button>
+                        </div>
+                    </form>
+                    <form class="row g-2 align-items-center mb-2">
+                        <div class="col-md-9">
+                            <div class="form-floating">
+                                <select id="lstYearMn" class="form-select" onchange="">
+                                </select>
+                                <label for="floatingSelect">Año</label>
+                            </div>
+                        </div>
+                        <div class="col-md-1">
+                            <button class="btn btn-outline-success me-2" type="button" onclick="BuscarMapYear()"
+                                data-bs-toggle="offcanvas" data-bs-target="#offcanvasResultados"
+                                aria-controls="offcanvasResultados">
+                                <i class="bi bi-binoculars"></i>
+                            </button>
+                        </div>
+
+                    </form>
+                    <form class="row g-2 align-items-center mb-2">
+                        <div class="col-md-9">
+                            <div class="form-floating">
+                                <select id="lstTipoMn" class="form-select" onchange="">
+                                </select>
+                                <label for="floatingSelect">Tipo de vulneración</label>
+                            </div>
+                        </div>
+                        <div class="col-md-1">
+                            <button class="btn btn-outline-success me-2" type="button" onclick="BuscarMapTipo()"
+                                data-bs-toggle="offcanvas" data-bs-target="#offcanvasResultados"
+                                aria-controls="offcanvasResultados">
+                                <i class="bi bi-binoculars"></i>
+                            </button>
+                        </div>
+                    </form>
+
+                    <form class="row g-2 align-items-center mb-2">
+                        <div class="col-md-9">
+                            <div class="form-floating">
+                                <select id="lstPuebloMn" class="form-select" onchange="">
+                                </select>
+                                <label for="floatingSelect">Pueblo</label>
+                            </div>
+                        </div>
+                        <div class="col-md-1">
+                            <button class="btn btn-outline-success me-2" type="button" onclick="BuscarMapPueblo()"
+                                data-bs-toggle="offcanvas" data-bs-target="#offcanvasResultados"
+                                aria-controls="offcanvasResultados">
+                                <i class="bi bi-binoculars"></i>
+                            </button>
+                        </div>
+                    </form>
+                    <form class="row g-2 align-items-center mb-2">
+                        <div class="col-md-9">
+                            <div class="form-floating">
+                                <select id="lstPerpeMn" class="form-select" onchange="">
+                                </select>
+                                <label for="floatingSelect">Actores</label>
+                            </div>
+                        </div>
+                        <div class="col-md-1">
+                            <button class="btn btn-outline-success me-2" type="button" onclick="BuscarMapPerpe()"
+                                data-bs-toggle="offcanvas" data-bs-target="#offcanvasResultados"
+                                aria-controls="offcanvasResultados">
+                                <i class="bi bi-binoculars"></i>
+                            </button>
+                        </div>
+                    </form>
+function BuscarMapDepartamento() {
+    let nCasos = 0;
+    ///Limpiamos la lista de resultados
+    document.getElementById("lstResGis").innerHTML = ""
+
+
+    ///Verificamos el valor de la capa visible
+
+    //Limpiamos cualquier marca en el mapa
+    for (let i = 0; i < MrkAntecedente.length; i++) {
+
+        //Limpia información de mi mapa principal
+        map.removeLayer(MrkAntecedente[i]);
+        //Limpia informacion de mi mapa de impresión
+        //mapPrint.removeLayer(MrkAntecedente2Print[i]);
+        //Estas marcas estan en este módulo y script
+    }
+
+
+    //Miramos el valor en la lista departamento
+    let vlstDep = document.getElementById('lstDepMn').value;
+
+    for (let i = 0; i < Eventos.length; i++) {
+
+        if (Eventos[i].Departamento == vlstDep) {
+            nCasos = nCasos + 1;
+            let vDepartamento = Eventos[i].Departamento;
+            let vYear = Eventos[i].Year;
+            let vTipo = Eventos[i].Tipo;
+            let vPunto = Eventos[i].Municipio;
+            let vInd = Eventos[i].ind;
+            let vLat = Eventos[i].Lat;
+            let vLng = Eventos[i].Lng;
+
+            document.getElementById("lbTotalEncontrado").textContent = nCasos;
+
+            let p = document.createElement("p");
+            let l = document.createElement("label")
+            l.textContent = nCasos + ". Caso: " + vInd + ", " + vYear + ", " + vPunto;
+            l.onclick = () => verCaso(i);
+            l.classList.add('text-success');
+            p.appendChild(l);
+            document.getElementById("lstResGis").appendChild(p);
+
+            ///Colocamos las marcas en el mapa
+            MrkAntecedente.push(new L.marker([vLat, vLng], { icon: greenIcon })
+                .addTo(map)
+                .bindPopup("<b>" + vDepartamento + "-" + vYear + "</b><br>" + vPunto + " C:" + vInd + "<br><button type='button' class='btn btn-secondary' onclick ='verCaso(" + i + ")'>Ver</button></br>")
+            );
+
+
+        }
+
+    }
+
+    //Colocamso información de resultados en este espacio
+
+    nCasos = 0;
+
+}
+
+function BuscarMapYear() {
+
+    let nCasos = 0;
+    ///Limpiamos la lista de resultados
+    document.getElementById("lstResGis").innerHTML = ""
+
+
+    ///Verificamos el valor de la capa visible
+
+    //Limpiamos cualquier marca en el mapa
+    for (let i = 0; i < MrkAntecedente.length; i++) {
+
+        //Limpia información de mi mapa principal
+        map.removeLayer(MrkAntecedente[i]);
+        //Limpia informacion de mi mapa de impresión
+        //mapPrint.removeLayer(MrkAntecedente2Print[i]);
+        //Estas marcas estan en este módulo y script
+    }
+
+
+    //Miramos el valor en la lista departamento
+    let vlstYear = document.getElementById('lstYearMn').value;
+
+    for (let i = 0; i < Eventos.length; i++) {
+
+        if (Eventos[i].Year == vlstYear) {
+            nCasos = nCasos + 1;
+            let vDepartamento = Eventos[i].Departamento;
+            let vYear = Eventos[i].Year;
+            let vTipo = Eventos[i].Tipo;
+            let vPunto = Eventos[i].Municipio;
+            let vInd = Eventos[i].ind;
+            let vLat = Eventos[i].Lat;
+            let vLng = Eventos[i].Lng;
+
+            document.getElementById("lbTotalEncontrado").textContent = nCasos;
+
+            let p = document.createElement("p");
+            let l = document.createElement("label")
+            l.textContent = nCasos + ". Caso: " + vInd + ", " + vYear + ", " + vPunto;
+            l.onclick = () => verCaso(i);
+            l.classList.add('text-success');
+            p.appendChild(l);
+            document.getElementById("lstResGis").appendChild(p);
+
+            ///Colocamos las marcas en el mapa
+            MrkAntecedente.push(new L.marker([vLat, vLng], { icon: blueIcon })
+                .addTo(map)
+                .bindPopup("<b>" + vDepartamento + "-" + vYear + "</b><br>" + vPunto + " C:" + vInd + "<br><button type='button' class='btn btn-secondary' onclick ='verCaso(" + i + ")'>Ver</button></br>")
+            );
+
+
+        }
+
+    }
+
+    //Colocamso información de resultados en este espacio
+
+    nCasos = 0;
+
+}
+function BuscarMapTipo() {
+    let nCasos = 0;
+    ///Limpiamos la lista de resultados
+    document.getElementById("lstResGis").innerHTML = ""
+
+
+    ///Verificamos el valor de la capa visible
+
+    //Limpiamos cualquier marca en el mapa
+    for (let i = 0; i < MrkAntecedente.length; i++) {
+
+        //Limpia información de mi mapa principal
+        map.removeLayer(MrkAntecedente[i]);
+        //Limpia informacion de mi mapa de impresión
+        //mapPrint.removeLayer(MrkAntecedente2Print[i]);
+        //Estas marcas estan en este módulo y script
+    }
+
+
+    //Miramos el valor en la lista departamento
+    let vlstTipo = document.getElementById('lstTipoMn').value;
+
+    for (let i = 0; i < Eventos.length; i++) {
+
+        if (Eventos[i].Tipo == vlstTipo) {
+            nCasos = nCasos + 1;
+            let vDepartamento = Eventos[i].Departamento;
+            let vYear = Eventos[i].Year;
+            let vTipo = Eventos[i].Tipo;
+            let vPunto = Eventos[i].Municipio;
+            let vInd = Eventos[i].ind;
+            let vLat = Eventos[i].Lat;
+            let vLng = Eventos[i].Lng;
+
+            document.getElementById("lbTotalEncontrado").textContent = nCasos;
+
+            let p = document.createElement("p");
+            let l = document.createElement("label")
+            l.textContent = nCasos + ". Caso: " + vInd + ", " + vYear + ", " + vPunto;
+            l.onclick = () => verCaso(i);
+            l.classList.add('text-success');
+            p.appendChild(l);
+            document.getElementById("lstResGis").appendChild(p);
+
+            ///Colocamos las marcas en el mapa
+            MrkAntecedente.push(new L.marker([vLat, vLng], { icon: redIcon })
+                .addTo(map)
+                .bindPopup("<b>" + vDepartamento + "-" + vYear + "</b><br>" + vPunto + " C:" + vInd + "<br><button type='button' class='btn btn-secondary' onclick ='verCaso(" + i + ")'>Ver</button></br>")
+            );
+
+
+        }
+
+    }
+
+    //Colocamso información de resultados en este espacio
+
+    nCasos = 0;
+
+
+
+}
+
+function BuscarMapPueblo() {
+    let nCasos = 0;
+    ///Limpiamos la lista de resultados
+    document.getElementById("lstResGis").innerHTML = ""
+
+
+    ///Verificamos el valor de la capa visible
+
+    //Limpiamos cualquier marca en el mapa
+    for (let i = 0; i < MrkAntecedente.length; i++) {
+
+        //Limpia información de mi mapa principal
+        map.removeLayer(MrkAntecedente[i]);
+        //Limpia informacion de mi mapa de impresión
+        //mapPrint.removeLayer(MrkAntecedente2Print[i]);
+        //Estas marcas estan en este módulo y script
+    }
+
+
+    //Miramos el valor en la lista departamento
+    let vlstPueblo = document.getElementById('lstPuebloMn').value;
+
+    for (let i = 0; i < Eventos.length; i++) {
+
+        if (Eventos[i].Pueblo == vlstPueblo) {
+            nCasos = nCasos + 1;
+            let vDepartamento = Eventos[i].Departamento;
+            let vYear = Eventos[i].Year;
+            let vTipo = Eventos[i].Tipo;
+            let vPunto = Eventos[i].Municipio;
+            let vInd = Eventos[i].ind;
+            let vLat = Eventos[i].Lat;
+            let vLng = Eventos[i].Lng;
+
+            document.getElementById("lbTotalEncontrado").textContent = nCasos;
+
+            let p = document.createElement("p");
+            let l = document.createElement("label")
+            l.textContent = nCasos + ". Caso: " + vInd + ", " + vYear + ", " + vPunto;
+            l.onclick = () => verCaso(i);
+            l.classList.add('text-success');
+            p.appendChild(l);
+            document.getElementById("lstResGis").appendChild(p);
+
+            ///Colocamos las marcas en el mapa
+            MrkAntecedente.push(new L.marker([vLat, vLng], { icon: purpleIcon })
+                .addTo(map)
+                .bindPopup("<b>" + vDepartamento + "-" + vYear + "</b><br>" + vPunto + " C:" + vInd + "<br><button type='button' class='btn btn-secondary' onclick ='verCaso(" + i + ")'>Ver</button></br>")
+            );
+
+
+        }
+
+    }
+
+    //Colocamso información de resultados en este espacio
+
+    nCasos = 0;
+
+
+}
+
+function BuscarMapPerpe() {
+    let nCasos = 0;
+    ///Limpiamos la lista de resultados
+    document.getElementById("lstResGis").innerHTML = ""
+
+
+    ///Verificamos el valor de la capa visible
+
+    //Limpiamos cualquier marca en el mapa
+    for (let i = 0; i < MrkAntecedente.length; i++) {
+
+        //Limpia información de mi mapa principal
+        map.removeLayer(MrkAntecedente[i]);
+        //Limpia informacion de mi mapa de impresión
+        //mapPrint.removeLayer(MrkAntecedente2Print[i]);
+        //Estas marcas estan en este módulo y script
+    }
+
+
+    //Miramos el valor en la lista departamento
+    let vlstPerpetuador = document.getElementById('lstPerpeMn').value;
+
+    for (let i = 0; i < Eventos.length; i++) {
+
+        if (Eventos[i].Perpetuador == vlstPerpetuador) {
+            nCasos = nCasos + 1;
+            let vDepartamento = Eventos[i].Departamento;
+            let vYear = Eventos[i].Year;
+            let vTipo = Eventos[i].Tipo;
+            let vPunto = Eventos[i].Municipio;
+            let vInd = Eventos[i].ind;
+            let vLat = Eventos[i].Lat;
+            let vLng = Eventos[i].Lng;
+
+            document.getElementById("lbTotalEncontrado").textContent = nCasos;
+
+            let p = document.createElement("p");
+            let l = document.createElement("label")
+            l.textContent = nCasos + ". Caso: " + vInd + ", " + vYear + ", " + vPunto;
+            l.onclick = () => verCaso(i);
+            l.classList.add('text-success');
+            p.appendChild(l);
+            document.getElementById("lstResGis").appendChild(p);
+
+            ///Colocamos las marcas en el mapa
+            MrkAntecedente.push(new L.marker([vLat, vLng], { icon: orangeIcon })
+                .addTo(map)
+                .bindPopup("<b>" + vDepartamento + "-" + vYear + "</b><br>" + vPunto + " C:" + vInd + "<br><button type='button' class='btn btn-secondary' onclick ='verCaso(" + i + ")'>Ver</button></br>")
+            );
+
+
+        }
+
+    }
+
+    //Colocamso información de resultados en este espacio
+
+    nCasos = 0;
+
+
+}
+
+function PutDepLstMap() {
+    let DepExis = [];
+    for (var i = 1; i < Eventos.length; i++) {
+        if (DepExis.includes(Eventos[i].Departamento) == false) {
+            DepExis.push(Eventos[i].Departamento);
+        }
+    }
+    //Ordeno los años de menor a mayor
+    let DepSort = DepExis.sort();
+
+    let lista = document.getElementById("lstDepMn")
+    lista.innerHTML = "";
+
+    for (var i = 0; i < DepSort.length; i++) {
+        let nItem = document.createElement("option");
+        nItem.value = DepSort[i];
+        nItem.text = DepSort[i];
+        lista.appendChild(nItem);
+    }
+}
+
+function PutYearLstMap() {
+    let YearExis = [];
+    for (var i = 1; i < Eventos.length; i++) {
+        if (YearExis.includes(Eventos[i].Year) == false) {
+            YearExis.push(Eventos[i].Year);
+        }
+    }
+    //Ordeno los años de menor a mayor
+    let YearSort = YearExis.sort();
+
+    let lista = document.getElementById("lstYearMn")
+    lista.innerHTML = ""
+
+    for (var i = 0; i < YearSort.length; i++) {
+        let nItem = document.createElement("option");
+        nItem.value = YearSort[i];
+        nItem.text = YearSort[i];
+        lista.appendChild(nItem);
+    }
+}
+
+function PutTipoLstMap() {
+    let TipoExis = [];
+    for (var i = 1; i < Eventos.length; i++) {
+        if (TipoExis.includes(Eventos[i].Tipo) == false) {
+            TipoExis.push(Eventos[i].Tipo);
+        }
+    }
+    //Ordeno los años de menor a mayor
+    let TipoSort = TipoExis.sort();
+
+    let lista = document.getElementById("lstTipoMn")
+    lista.innerHTML = ""
+
+    for (var i = 0; i < TipoSort.length; i++) {
+        let nItem = document.createElement("option");
+        nItem.value = TipoSort[i];
+        nItem.text = TipoSort[i];
+        lista.appendChild(nItem);
+    }
+
+}
+
+function PutPuebloLstMap() {
+    let PuebloExis = [];
+    for (var i = 1; i < Eventos.length; i++) {
+        if (PuebloExis.includes(Eventos[i].Pueblo) == false) {
+            PuebloExis.push(Eventos[i].Pueblo);
+        }
+    }
+    //Ordeno los años de menor a mayor
+    let EtniaSort = PuebloExis.sort();
+
+    let lista = document.getElementById("lstPuebloMn")
+    lista.innerHTML = "";
+
+    for (var i = 0; i < EtniaSort.length; i++) {
+        let nItem = document.createElement("option");
+        nItem.value = EtniaSort[i];
+        nItem.text = EtniaSort[i];
+        lista.appendChild(nItem);
+    }
+}
+
+function PutPerpeLstMap() {
+    let PerpeExis = [];
+    for (var i = 1; i < Eventos.length; i++) {
+        if (PerpeExis.includes(Eventos[i].Perpetuador) == false) {
+            PerpeExis.push(Eventos[i].Perpetuador);
+        }
+    }
+    //Ordeno los años de menor a mayor
+    let PerpeSort = PerpeExis.sort();
+
+    let lista = document.getElementById("lstPerpeMn")
+    lista.innerHTML = "";
+
+    for (var i = 0; i < PerpeSort.length; i++) {
+        let nItem = document.createElement("option");
+        nItem.value = PerpeSort[i];
+        nItem.text = PerpeSort[i];
+        lista.appendChild(nItem);
+    }
+}
+    <!-- ESTILSO DE LEAFLET -->
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+
+    <script src='//api.tiles.mapbox.com/mapbox.js/plugins/leaflet-omnivore/v0.3.1/leaflet-omnivore.min.js'></script>
+     let map;
+    map = L.map("map", {
+        zoomDelta: 0.25,
+        zoomSnap: 0
+    }).setView([5.1, -75.55], 5);
+
+    tileMLayer = L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+        //y un mapa con un límite de zoom.
+        {
+            maxZoom: 19,
+            attribution:
+                'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://cloudmade.com">CloudMade</a>',
+        }).addTo(map);
+
+    var geocoder = L.Control.geocoder({
+        defaultMarkGeocode: true
+    })
+        .on('markgeocode', function (e) {
+            var bbox = e.geocode.bbox;
+        })
+        .addTo(map);
+    function openMap() {
+
+
+    }
