@@ -1,36 +1,3 @@
-var FondoLayer={
-    "type": "FeatureCollection",
-    "features": [
-      {
-        "type": "Feature",
-        "properties": {},
-        "geometry": {
-          "coordinates": [
-            [
-              [
-                -134.793052331123,
-                28.229276410949254
-              ],
-              [
-                -134.793052331123,
-                -34.59756661715643
-              ],
-              [
-                -3.8358157937860256,
-                -34.59756661715643
-              ],
-              [
-                -3.8358157937860256,
-                28.229276410949254
-              ],
-              [
-                -134.793052331123,
-                28.229276410949254
-              ]
-            ]
-          ],
-          "type": "Polygon"
-        }
-      }
-    ]
-  }
+version https://git-lfs.github.com/spec/v1
+oid sha256:68a0a2b14e89b3f7adfa044ce6c61ba636d1a4fdf528d908fea1b2ea46770399
+size 827
