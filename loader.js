@@ -1,23 +1,15 @@
-function fetchJson(url) {
-  return fetch(url)
-    .then(response => {
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
-      return response.json();
-    })
+function load(path) {
+  return fetch(path)
+    .then(response => response.json())
+    .then(data => data)
     .catch(error => {
-      throw new Error('Error fetching JSON: ' + error.message);
+      console.log('Error:', error);
+      throw error;
     });
 }
 
-// Ejemplo de cómo llamar y usar la función fetchJson:
-const url = './test.json';
 
-fetchJson(url)
-  .then(data => {
-    console.log('Datos obtenidos:', data);
-  })
-  .catch(error => {
-    console.log('Error al obtener los datos:', error);
-  });
+(async () => {
+  let testjson = await load('./test.json');
+  console.log(testjson);
+})();
