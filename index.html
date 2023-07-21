@@ -10,20 +10,22 @@
 
     <script>
         //load
-        function load(path) {
-            return fetch(path)
-                .then(response => response.json())
-                .then(data => {
-                    console.log("return data")
-                    return data; // Returning the resolved data
-                })
-                .catch(error => {
-                    console.log('Error:', error); // Logging the error (optional)
-                    throw error; // Rethrow the error to propagate it further if needed
-                });
-        }
+    //Loader
+    console.log("........Loading.........")
 
-        console.log(await load("./test.json"));
+    async function load(path) {
+        try {
+            const response = await fetch(path);
+            const data = await response.json();
+            return data;
+        } catch (error) {
+            console.log(error);
+            return null;
+        }
+    }
+
+    const testjson = await load('./test.json');
+    console.log(testjson)
     </script>
 
 <body>
