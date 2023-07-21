@@ -1,16 +1,23 @@
-//Loader
-console.log("........Loading.........")
-
-async function load(path) {
-    try {
-        const response = await fetch(path);
-        const data = await response.json();
-        return data;
-    } catch (error) {
-        console.log(error);
-        return null;
-    }
+function fetchJson(url) {
+  return fetch(url)
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      return response.json();
+    })
+    .catch(error => {
+      throw new Error('Error fetching JSON: ' + error.message);
+    });
 }
 
-const testjson = await load('./test.json');
-console.log(testjson)
+// Ejemplo de cómo llamar y usar la función fetchJson:
+const url = './test.json';
+
+fetchJson(url)
+  .then(data => {
+    console.log('Datos obtenidos:', data);
+  })
+  .catch(error => {
+    console.log('Error al obtener los datos:', error);
+  });
