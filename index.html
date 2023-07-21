@@ -7,9 +7,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>im largo</title>
     <link rel="stylesheet" type="text/css" href="Estilo.css">
-    
-    <script src="loader.js"></script>
-</head>
+
+    <script>
+        //load
+        function load(path) {
+            return fetch(path)
+                .then(response => response.json())
+                .then(data => {
+                    console.log("return data")
+                    return data; // Returning the resolved data
+                })
+                .catch(error => {
+                    console.log('Error:', error); // Logging the error (optional)
+                    throw error; // Rethrow the error to propagate it further if needed
+                });
+        }
+
+        console.log(await load("./test.json"));
+    </script>
 
 <body>
     <header class="Navegacion">
@@ -33,7 +48,8 @@
         <section class="Contenedor border">
             <h1>Hola!,</h1>
             <p>Soy Juan Carlos Largo, estudiante de primer semestre de Ingenieria de Sistemas e
-                Informatica en la Universidad Nacional de Colombia. Me encanta la música, la comida, aprender cosas nuevas y programar.</p>
+                Informatica en la Universidad Nacional de Colombia. Me encanta la música, la comida, aprender cosas
+                nuevas y programar.</p>
             <p>Esta pagina web aun esta en construccion asi que poco a poco ire añadiendo cositas :)</p>
         </section>
 
