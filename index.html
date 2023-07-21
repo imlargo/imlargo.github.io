@@ -8,25 +8,7 @@
     <title>im largo</title>
     <link rel="stylesheet" type="text/css" href="Estilo.css">
 
-    <script>
-        //load
-    //Loader
-    console.log("........Loading.........")
-
-    async function load(path) {
-        try {
-            const response = await fetch(path);
-            const data = await response.json();
-            return data;
-        } catch (error) {
-            console.log(error);
-            return null;
-        }
-    }
-
-    const testjson = await load('./test.json');
-    console.log(testjson)
-    </script>
+    <script src="loader.js"></script>
 
 <body>
     <header class="Navegacion">

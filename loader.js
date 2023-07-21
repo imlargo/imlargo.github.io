@@ -1,9 +1,16 @@
 //Loader
 console.log("........Loading.........")
 
-fetch('./test.json')
-  .then(response => response.json())
-  .then(data => console.log(data))
-  .catch(error => console.log(error));
+async function load(path) {
+    try {
+        const response = await fetch(path);
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        console.log(error);
+        return null;
+    }
+}
 
-
+const testjson = await load('./test.json');
+console.log(testjson)
