@@ -15,7 +15,7 @@
             const url = `${db}&sheet=${hoja}`
 
             fetch(url)
-                .then(response => data)
+                .then(response => response.json())
                 .then(data => {
                     console.log(data);
                 })
