@@ -9,9 +9,13 @@
     <link rel="stylesheet" type="text/css" href="Estilo.css">
 
     <script>
-            
-            fetch("https://drive.google.com/uc?id=1VfpaZ_OmTwBJ_bJoGK7a3bJOld9DDdwM")
-                .then(response => response.json())
+            let id = "17IENXIqKKPsIOgGCSeMKpC1IgtzeCSX2FIfyVVQFUO8"
+            let hoja = "Test"
+            const db = `https://docs.google.com/spreadsheets/d/${id}/gviz/tq?`;
+            const url = `${db}&sheet=${hoja}`
+
+            fetch(url)
+                .then(response => data)
                 .then(data => {
                     console.log(data);
                 })
